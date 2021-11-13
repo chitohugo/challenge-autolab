@@ -73,3 +73,12 @@ class Pokemon(BaseModel):
     speed = db.Column(db.Integer(), nullable=False)
     generation = db.Column(db.Integer(), nullable=False)
     legendary = db.Column(db.Boolean(), nullable=False)
+
+    @classmethod
+    def get_all(cls):
+        return cls.query.all()
+
+    @classmethod
+    def get_filters(cls, filter_fields, _order_by):
+        return cls.query.filter_by(**filter_fields). \
+            order_by(_order_by()).all()
