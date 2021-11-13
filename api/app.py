@@ -6,6 +6,7 @@ from werkzeug import exceptions
 
 from api.config import env_config
 from api.model import db
+from api.schemas import ma
 from resources.pokemon import PokemonResource
 from utils import errors
 
@@ -20,6 +21,7 @@ def create_app(config_name):
 
     app.config.from_object(env_config[config_name])
     db.init_app(app)
+    ma.init_app(app)
     Migrate(app, db)
     api.init_app(app)
     jwt.init_app(app)
