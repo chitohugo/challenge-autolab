@@ -61,6 +61,9 @@ class User(BaseModel):
 class Pokemon(BaseModel):
     __tablename__ = 'pokemon'
 
+    page = 1
+    per_page = 15
+
     name = db.Column(db.String(80), nullable=False, unique=True)
     type_1 = db.Column(db.String(80), nullable=False)
     type_2 = db.Column(db.String(80), nullable=False)
@@ -75,10 +78,10 @@ class Pokemon(BaseModel):
     legendary = db.Column(db.Boolean(), nullable=False)
 
     @classmethod
-    def get_all(cls):
-        return cls.query.all()
+    def get_all(cls, page, per_page):
+        return cls.query.paginate(page, per_page, error_out=False)
 
     @classmethod
-    def get_filters(cls, filter_fields, _order_by):
+    def get_filters(cls, filter_fields, _order_by, page=1, per_page=15):
         return cls.query.filter_by(**filter_fields). \
-            order_by(_order_by()).all()
+            order_by(_order_by()).paginate(page, per_page, error_out=False)
