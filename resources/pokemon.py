@@ -13,8 +13,8 @@ class PokemonResource(Resource):
     schema = PokemonSchema()
     service = PokemonServices
 
-    @swag_from('swagger/pokemon.yml')
     @jwt_required()
+    @swag_from('swagger/pokemon.yml')
     def get(self):
         api = Api(app)
 

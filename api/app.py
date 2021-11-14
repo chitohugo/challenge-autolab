@@ -8,7 +8,9 @@ from werkzeug import exceptions
 from api.config import env_config
 from api.model import db
 from api.schemas import ma
+from resources.login import LoginResource
 from resources.pokemon import PokemonResource
+from resources.signup import SignupResource
 from utils import errors
 
 api = Api()
@@ -31,17 +33,27 @@ def create_app(config_name):
         "swagger": "2.0",
         "info": {
             "title": "AutoLab Challenge",
-            "description": "API for Pokemon",
-            "version": "0.0.1"
+            "description": "Flask-Restful",
+            "version": "0.1.1",
         },
-        "basePath": "/v1/api",
         "securityDefinitions": {
-            "APIKeyHeader": {
+            "Bearer": {
                 "type": "apiKey",
-                "name": "x-access-token",
-                "in": "header"
+                "name": "Authorization",
+                "in": "header",
+                "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
             }
-        }
+        },
+        "security": [
+            {
+                "Bearer": []
+            }
+        ]
+
+    }
+    app.config['SWAGGER'] = {
+        'title': 'APIs Challenge Pokemon',
+        'uiversion': 3,
     }
 
     Swagger(app, template=template)
@@ -72,4 +84,12 @@ def create_app(config_name):
 api.add_resource(PokemonResource,
                  "/v1/api/pokemon",
                  endpoint="pokemon"
+                 )
+api.add_resource(SignupResource,
+                 "/v1/api/signup",
+                 endpoint="signup"
+                 )
+api.add_resource(LoginResource,
+                 "/v1/api/login",
+                 endpoint="login"
                  )
