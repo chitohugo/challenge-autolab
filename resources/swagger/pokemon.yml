@@ -1,0 +1,65 @@
+tags:
+  - pokemon
+summary: "List or filter pokemon"
+description: ""
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+parameters:
+  - name: filters
+    in: query
+    type: string
+    requiered: false
+  - name: sort
+    in: query
+    type: string
+    required: false
+  - name: page
+    in: query
+    type: integer
+  - name: per_page
+    in: query
+    required: false
+    type: integer
+
+responses:
+  200:
+    description:
+    schema:
+      $ref: '#/definitions/ResponsePokemon'
+definitions:
+  ResponsePokemon:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            type_1:
+              type: string
+            type_2:
+              type: string
+            total:
+              type: integer
+            attack:
+              type: integer
+            defense:
+              type: integer
+            sp_def:
+              type: integer
+            speed:
+              type: integer
+            generation:
+              type: integer
+            legendary:
+              type: boolean
+      next:
+        type: string
+      prev:
+        type: string

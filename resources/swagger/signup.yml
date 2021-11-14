@@ -1,0 +1,42 @@
+tags:
+  - signup
+summary: "Create User"
+description: ""
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+parameters:
+  - in: body
+    name: user
+    description: The user to create.
+    schema:
+      $ref: '#/definitions/RequestUser'
+responses:
+  200:
+    description:
+    schema:
+      $ref: '#/definitions/ResponseUser'
+definitions:
+  RequestUser:
+    type: object
+    required:
+      - email
+      - username
+      - password
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+  ResponseUser:
+    type: object
+    properties:
+      id:
+        type: integer
+      email:
+        type: string
+      username:
+        type: string
