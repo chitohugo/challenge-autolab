@@ -1,3 +1,4 @@
+from flasgger import swag_from
 from flask import request, current_app
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, Api
@@ -12,6 +13,8 @@ class PokemonResource(Resource):
     schema = PokemonSchema()
     service = PokemonServices
 
+    @swag_from('swagger/pokemon.yml')
+    @jwt_required()
     def get(self):
         api = Api(app)
 

@@ -1,3 +1,4 @@
+from flasgger import Swagger
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -12,6 +13,7 @@ from utils import errors
 
 api = Api()
 jwt = JWTManager()
+swagger = Swagger()
 
 
 def create_app(config_name):
@@ -25,6 +27,24 @@ def create_app(config_name):
     Migrate(app, db)
     api.init_app(app)
     jwt.init_app(app)
+    template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "AutoLab Challenge",
+            "description": "API for Pokemon",
+            "version": "0.0.1"
+        },
+        "basePath": "/v1/api",
+        "securityDefinitions": {
+            "APIKeyHeader": {
+                "type": "apiKey",
+                "name": "x-access-token",
+                "in": "header"
+            }
+        }
+    }
+
+    Swagger(app, template=template)
 
     app.register_error_handler(exceptions.NotFound, errors.handle_404_errors)
 
@@ -49,4 +69,7 @@ def create_app(config_name):
     return app
 
 
-api.add_resource(PokemonResource, "/pokemon", endpoint="pokemon")
+api.add_resource(PokemonResource,
+                 "/v1/api/pokemon",
+                 endpoint="pokemon"
+                 )
