@@ -3,7 +3,6 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_restful import Api
-from werkzeug import exceptions
 
 from api.config import env_config
 from api.model import db
@@ -11,7 +10,6 @@ from api.schemas import ma
 from resources.login import LoginResource
 from resources.pokemon import PokemonResource
 from resources.signup import SignupResource
-from utils import errors
 
 api = Api()
 jwt = JWTManager()
@@ -57,26 +55,6 @@ def create_app(config_name):
     }
 
     Swagger(app, template=template)
-
-    app.register_error_handler(exceptions.NotFound, errors.handle_404_errors)
-
-    app.register_error_handler(
-        exceptions.InternalServerError, errors.handle_server_errors
-    )
-
-    app.register_error_handler(exceptions.BadRequest, errors.handle_400_errors)
-
-    app.register_error_handler(FileNotFoundError, errors.handle_400_errors)
-
-    app.register_error_handler(TypeError, errors.handle_400_errors)
-
-    app.register_error_handler(KeyError, errors.handle_404_errors)
-
-    app.register_error_handler(AttributeError, errors.handle_400_errors)
-
-    app.register_error_handler(ValueError, errors.handle_400_errors)
-
-    app.register_error_handler(AssertionError, errors.handle_400_errors)
 
     return app
 
